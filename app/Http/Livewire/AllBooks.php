@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Book;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -11,7 +10,7 @@ use Livewire\WithPagination;
 
 class AllBooks extends Component
 {
-    public $title, $isbn, $publisher, $published_at, $cover_image, $genre, $authors, $revision_number, $cid;
+    public $title, $isbn, $publisher, $publication_year, $cover_image, $genre, $author, $revision_number, $cid;
 
     public $update = false;
     public $delete = null;
@@ -25,20 +24,15 @@ class AllBooks extends Component
     ];
 
     // refreshinputs after saved
-    function refreshInputs()
+    public function refreshInputs()
     {
         $this->title = '';
-        $this->published_at = '';
-        $this->publisher = '';
-        $this->authors = '';
-        $this->cover_image = '';
-        $this->revision_number = '';
-        $this->genre = '';
-        $this->isbn = '';
+        $this->publication_year = '';
+        $this->author = '';
         $this->update = false;
     }
 
-    function add()
+    public function add()
     {
         $this->update = false;
     }
@@ -46,8 +40,8 @@ class AllBooks extends Component
         'cover_image.image' => 'Image must be png, jpg, jpeg format',
         'cover_image.max' => 'Image must be less than 500kb',
         'cover_image.required' => 'Image must not be empty',
-        'published_at.required' => 'Published Date must not be empy',
-        'published_at.date' => 'Date must be in the past or today'
+        'publication_year.required' => 'Published Date must not be empy',
+        'publication_year.date' => 'Date must be in the past or today',
     ];
 
     public function save()
@@ -55,29 +49,19 @@ class AllBooks extends Component
         $data = $this->validate(
             [
                 'title' => 'required|unique:books,title',
-                'cover_image' => 'nullable|image|max:512',
-                'authors' => 'required',
-                'revision_number' => 'required|numeric',
-                'publisher' => 'required',
-                'published_at' => 'required|date|before_or_equal:today',
-                'isbn' => 'required',
-                'genre' => 'required',
+                'author' => 'required',
+                'publication_year' => 'required|numeric',
             ]
         );
-        // imageurl
-        if ($this->cover_image) {
-            $url = $this->cover_image->store('book', 'public');
-        }
 
-        $saved = Book::create(array_merge($data, ['cover_image' => $url]));
-
+        $saved = Book::create($data);
 
         if ($saved) {
             $this->refreshInputs();
             $this->dispatchBrowserEvent('closeModal');
             $this->dispatchBrowserEvent('swal:success', [
                 'icon' => 'success',
-                'text' => strtoupper($this->title) . ' added to library',
+                'text' => strtoupper($this->title) . ' added to Archived',
                 'title' => 'Book Added',
                 'timer' => 5000,
             ]);
@@ -101,48 +85,35 @@ class AllBooks extends Component
 
         $this->cid = $book->id;
         $this->title = $book->title;
-        $this->isbn = $book->isbn;
-        $this->publisher = $book->publisher;
-        $this->published_at = $book->published_at;
-        $this->genre = $book->genre;
-        $this->authors = $book->authors;
-        $this->revision_number = $book->revision_number;
+        $this->publication_year = $book->publication_year;
+        $this->author = $book->author;
+
         $this->update = true;
         $this->dispatchBrowserEvent('showModal');
     }
 
-    function update()
+    public function update()
     {
 
         $book = Book::find($this->cid);
         $data = $this->validate(
             [
                 'title' => 'required|unique:books,title,' . $this->cid,
-                'cover_image' => 'nullable|image|max:512',
-                'authors' => 'required',
-                'revision_number' => 'required|numeric',
-                'publisher' => 'required',
-                'published_at' => 'required|date|before_or_equal:today',
-                'isbn' => 'required',
-                'genre' => 'required',
+                'author' => 'required',
+                'publication_year' => 'required|numeric',
+
             ]
         );
-        // imageurl
-        if ($this->cover_image) {
-            Storage::disk('public')->delete($book->cover_image);
-            $url = $this->cover_image->store('book', 'public');
-        }
 
-        $saved = $book->update(array_merge($data, ['cover_image' => $url ?? $book->cover_image]));
-
+        $saved = $book->update($data);
 
         if ($saved) {
             $this->refreshInputs();
             $this->dispatchBrowserEvent('closeModal');
             $this->dispatchBrowserEvent('swal:success', [
                 'icon' => 'success',
-                'text' => strtoupper($this->title) . ' added to library',
-                'title' => 'Book Added',
+                'text' => strtoupper($this->title) . ' added to Archived',
+                'title' => 'Book Updated',
                 'timer' => 7000,
             ]);
         }
@@ -155,32 +126,32 @@ class AllBooks extends Component
 
         $book = Book::findOrFail($this->delete);
 
-
         // if the book has a cover image delete the image along with data
         if ($book->cover_image || Storage::exists($book->cover)) {
             Storage::disk('public')->delete($book->cover_image);
         }
-
 
         $true = $book->delete();
 
         if ($true) {
             $this->dispatchBrowserEvent('swal:success', [
                 'icon' => 'success',
-                'text' => $book->title . ' has deleted Successfully from library',
+                'text' => $book->title . ' has deleted Successfully from Archived',
                 'title' => 'Deleted',
                 'timer' => 7000,
             ]);
         }
         $this->update = false;
         $this->refreshInputs();
-        return redirect()->back();
+        return $this->reset();
     }
 
     public function render()
     {
         $term = '%' . $this->search . '%';
-        $books = Book::where('authors', 'LIKE', $term)->orWhere('title', 'LIKE', $term)->orWhere('isbn', 'LIKE', $term)->orWhere('published_at', 'LIKE', $term)->paginate(5);
+        $books = Book::where('author', 'LIKE', $term)
+            ->orWhere('title', 'LIKE', $term)
+            ->paginate(10);
         return view('livewire.all-books', compact(['books']));
     }
 }

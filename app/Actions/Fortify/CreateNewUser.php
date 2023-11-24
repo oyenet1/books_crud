@@ -35,7 +35,6 @@ class CreateNewUser implements CreatesNewUsers
             'username' => [
                 'required',
                 'string',
-                'email',
                 'max:255',
                 Rule::unique(User::class),
 

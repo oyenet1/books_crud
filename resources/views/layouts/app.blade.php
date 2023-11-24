@@ -77,12 +77,12 @@
 
         .nav-active {
             .header-blue {
-                background: #059668;
+                background: #C31C74;
             }
         }
 
         color: #fff;
-        background-color: #059668;
+        background-color: #C31C74;
         /* .half-margin {
       margin-top: -30px !important;
     } */
@@ -102,7 +102,7 @@
     </div>
     <!-- [ Pre-loader ] End -->
     <!-- [ navigation menu ] start -->
-    <nav class="bg-green-600 pcoded-navbar menu-light">
+    <nav class="bg-pink-600 pcoded-navbar menu-light">
         <div class="navbar-wrapper">
             <div class="navbar-content scroll-div">
                 <div class="">
@@ -148,7 +148,7 @@
                                     class="pcoded-micon"><i class="feather icon-home"></i></span><span
                                     class="pcoded-mtext">Dashboard</span></a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="/borrowers" class="nav-link {{ request()->is('/borroers') ? 'nav-active' : '' }}">
                                 <span class="pcoded-micon">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20"
@@ -159,7 +159,7 @@
                                 </span>
                                 <span class="pcoded-mtext">Borrowers History</span>
                             </a>
-                        </li>
+                        </li> --}}
                     @else
                         <li class="nav-item">
                             <a href="/home" class="nav-link {{ request()->is('admin/cities') ? 'nav-active' : '' }}">
@@ -194,8 +194,8 @@
     <!-- [ navigation menu ] end -->
     <!-- [ Header ] start -->
     <header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue poppins-medium">
-        <div class="bg-green-600 m-header">
-            <h1 class="text-2xl text-white">E-Library</h1>
+        <div class="bg-pink-600 m-header">
+            <h1 class="text-2xl text-white">Book</h1>
             <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
             <a href="#!" class="b-brand">
                 <!-- ========   change your logo hear   ============ -->
@@ -206,7 +206,7 @@
                 <i class="feather icon-more-vertical"></i>
             </a>
         </div>
-        <div class="bg-green-600 collapse navbar-collapse">
+        <div class="bg-pink-600 collapse navbar-collapse">
             <ul class="mr-auto navbar-nav">
                 <li class="nav-item">
                     {{-- <a href="#!" class="pop-search"><i class="feather icon-search"></i></a> --}}

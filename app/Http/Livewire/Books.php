@@ -20,7 +20,7 @@ class Books extends Component
 
     // types of book
 
-    public  $cid;
+    public $cid;
     public $show = false;
     public $update = false;
     public $modal = false;
@@ -77,7 +77,7 @@ class Books extends Component
         } else {
             $this->dispatchBrowserEvent('swal:success', [
                 'icon' => 'error',
-                'text' =>  strtoupper(auth()->user()->name) . ' Aba, you never return the one you borrow',
+                'text' => strtoupper(auth()->user()->name) . ' Aba, you never return the one you borrow',
                 'title' => 'You no fit borrow book',
                 // 'timer' => 3000,
             ]);
@@ -90,7 +90,8 @@ class Books extends Component
     public function render()
     {
         $term = '%' . $this->search . '%';
-        $books = Book::where('authors', 'LIKE', $term)->orWhere('title', 'LIKE', $term)->orWhere('isbn', 'LIKE', $term)->orWhere('published_at', 'LIKE', $term)->paginate($this->perPage);
+        $books = Book::where('author', 'LIKE', $term)->orWhere('title', 'LIKE', $term)
+            ->paginate($this->perPage);
         return view('livewire.books', compact(['books']));
     }
 }

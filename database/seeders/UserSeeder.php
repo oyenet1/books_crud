@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        User::factory(15)->create();
         $roles = Role::whereIn('id', [1, 2])->get();
         $user = User::create([
             'name' => 'Bowofade Oyerinde',

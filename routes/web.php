@@ -27,7 +27,7 @@ Route::get('/', function () {
 Route::get('/dashboard', App\Http\Livewire\AllBooks::class)->middleware('role:admin|librarian');
 
 
-Route::get('/home', App\Http\Livewire\Books::class)->name('library')->middleware('auth');
+Route::get('/home', fn() => redirect('/profile'))->name('library')->middleware('auth');
 ;
 Route::get('/profile', App\Http\Livewire\ImageUpload::class)->name('profile')->middleware('auth');
 Route::get('/borrowers', App\Http\Livewire\Borrows::class)->name('admin.book')->middleware(['auth', 'role:admin|librarian']);
