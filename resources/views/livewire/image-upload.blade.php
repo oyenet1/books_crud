@@ -23,8 +23,7 @@
                         class="inline-block px-3 py-2 font-medium capitalize align-middle bg-gray-200 rounded-full cursor-pointer max-w-max">change
                         image</label>
                     <button class="inline-block font-normal text-white rounded-lg btn tt bg-primary"
-                        type="submit">Upload
-                        Image</button>
+                        type="submit">Upload</button>
                 </div>
                 <p class="pt-2 w-60">
                     @if ($errors->any())
