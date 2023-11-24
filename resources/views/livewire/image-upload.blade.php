@@ -1,10 +1,7 @@
-<div class="w-full p-8 bg-white rounded-xl">
-    <div class="p-4 space-y-4 text-lg font-medium bg-white rounded shadow lg:p-6 lg">
-        <p>Name: <span class="uppercase">{{ auth()->user()->name }}</span></p>
-        <p>Email: <span class="lowercase">{{ auth()->user()->email }}</span></p>
-        <p>Username: <span class="lowercase">{{ auth()->user()->username }}</span></p>
-    </div>
-    <form wire:submit.prevent='changeProfileImage' class="w-full">
+<div class="w-full p-8 space-y-3 bg-white rounded-xl">
+
+    <form wire:submit.prevent='changeProfileImage'
+        class="grid w-full grid-cols-1 gap-4 p-4 bg-white rounded-lg shadow lg:gap-6 lg:grid-cols-2">
         <div class="flex items-center py-4 space-x-4">
             <div class="relative">
                 <input type="file" wire:model.defer="image" id="image" class="hidden">
@@ -42,6 +39,11 @@
                     @endif
                 </p>
             </div>
+        </div>
+        <div class="p-4 space-y-4 text-lg font-medium bg-gray-100 rounded shadow lg:p-6 lg">
+            <p>Name: <span class="uppercase">{{ auth()->user()->name }}</span></p>
+            <p>Email: <span class="lowercase">{{ auth()->user()->email }}</span></p>
+            <p>Username: <span class="lowercase">{{ auth()->user()->username }}</span></p>
         </div>
     </form>
 </div>

@@ -82,7 +82,7 @@
         }
 
         color: #fff;
-        background-color: #C31C74;
+        background-color: #C31C74 !important;
         /* .half-margin {
       margin-top: -30px !important;
     } */
