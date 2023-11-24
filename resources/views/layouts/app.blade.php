@@ -143,7 +143,7 @@
                     </li>
                     @if (auth()->user()->hasRole(['admin', 'librarian']))
                         <li class="nav-item">
-                            <a href="/dashboard" class="nav-link {{ request()->is('profile') ? 'nav-active' : '' }}">
+                            <a href="/dashboard" class="nav-link {{ request()->is('dashboard') ? 'nav-active' : '' }}">
                                 <span class="pcoded-micon">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 feather" viewBox="0 0 20 20"
                                         fill="currentColor">
@@ -153,12 +153,6 @@
                                 </span>
                                 <span class="pcoded-mtext">Books</span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/profile"
-                                class="nav-link {{ request()->is('/branches') ? 'nav-active' : '' }}"><span
-                                    class="pcoded-micon"><i class="feather icon-home"></i></span><span
-                                    class="pcoded-mtext">Profile</span></a>
                         </li>
                     @else
                     @endif
